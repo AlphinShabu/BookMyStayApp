@@ -20,6 +20,10 @@ class Room {
         isAvailable = false;
     }
 
+    public void cancelBooking() {
+        isAvailable = true;
+    }
+
     public void display() {
         System.out.println("Type: " + type + " | Price: " + price + " | Available: " + isAvailable);
     }
@@ -43,17 +47,7 @@ class SuiteRoom extends Room {
     }
 }
 
-class Customer {
-    String name;
-    String phone;
-
-    public Customer(String name, String phone) {
-        this.name = name;
-        this.phone = phone;
-    }
-}
-
-class UseCase3RoomBooking {
+class UseCase4CancelBooking {
 
     public static void main(String[] args) {
 
@@ -65,15 +59,17 @@ class UseCase3RoomBooking {
                 new SuiteRoom()
         };
 
-        System.out.println("Available Rooms:");
+        // Pre-book one room (simulate existing booking)
+        rooms[0].bookRoom();
+
+        System.out.println("Current Room Status:");
         for (int i = 0; i < rooms.length; i++) {
             System.out.print((i + 1) + ". ");
             rooms[i].display();
         }
 
-        System.out.print("Select room (1-3): ");
+        System.out.print("Select room to cancel booking (1-3): ");
         int choice = sc.nextInt();
-        sc.nextLine();
 
         if (choice < 1 || choice > 3) {
             System.out.println("Invalid choice");
@@ -82,23 +78,17 @@ class UseCase3RoomBooking {
 
         Room selectedRoom = rooms[choice - 1];
 
-        if (!selectedRoom.isAvailable()) {
-            System.out.println("Room not available");
-            return;
+        if (selectedRoom.isAvailable()) {
+            System.out.println("Room is not booked.");
+        } else {
+            selectedRoom.cancelBooking();
+            System.out.println("Booking cancelled successfully!");
         }
 
-        System.out.print("Enter your name: ");
-        String name = sc.nextLine();
-
-        System.out.print("Enter phone number: ");
-        String phone = sc.nextLine();
-
-        Customer customer = new Customer(name, phone);
-
-        selectedRoom.bookRoom();
-
-        System.out.println("Booking successful!");
-        System.out.println("Customer: " + customer.name);
-        System.out.println("Room Type: " + selectedRoom.type);
+        System.out.println("Updated Room Status:");
+        for (int i = 0; i < rooms.length; i++) {
+            System.out.print((i + 1) + ". ");
+            rooms[i].display();
+        }
     }
 }
