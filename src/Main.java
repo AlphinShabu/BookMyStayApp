@@ -1,76 +1,45 @@
-import java.util.Scanner;
-
 class Room {
     protected int type;
     protected double price;
+    protected boolean isBooked;
 
-    public Room(int type, double price) {
+    public Room(int type, double price, boolean isBooked) {
         this.type = type;
         this.price = price;
+        this.isBooked = isBooked;
     }
 
-    public double calculateBill(int days) {
-        return price * days;
-    }
-}
-
-class Payment {
-    double amount;
-
-    public Payment(double amount) {
-        this.amount = amount;
-    }
-
-    public void processPayment() {
-        System.out.println("Payment of Rs." + amount + " successful!");
+    public void display() {
+        System.out.println("Room Type: " + type +
+                " | Price: " + price +
+                " | Booked: " + isBooked);
     }
 }
-
-class UseCase9Billing {
+ class UseCase10Reports {
 
     public static void main(String[] args) {
 
-        Scanner sc = new Scanner(System.in);
-
         Room[] rooms = {
-                new Room(1, 1500.0),
-                new Room(2, 2500.0),
-                new Room(3, 5000.0)
+                new Room(1, 1500, true),
+                new Room(2, 2500, true),
+                new Room(3, 5000, false)
         };
 
-        System.out.println("Room Types:");
-        System.out.println("1. Single (1500/day)");
-        System.out.println("2. Double (2500/day)");
-        System.out.println("3. Suite (5000/day)");
+        int totalBooked = 0;
+        double totalRevenue = 0;
 
-        System.out.print("Select room type (1-3): ");
-        int choice = sc.nextInt();
+        System.out.println("---- HOTEL REPORT ----");
 
-        if (choice < 1 || choice > 3) {
-            System.out.println("Invalid choice");
-            return;
+        for (int i = 0; i < rooms.length; i++) {
+            rooms[i].display();
+
+            if (rooms[i].isBooked) {
+                totalBooked++;
+                totalRevenue += rooms[i].price;
+            }
         }
 
-        Room selectedRoom = rooms[choice - 1];
-
-        System.out.print("Enter number of days stayed: ");
-        int days = sc.nextInt();
-
-        double totalBill = selectedRoom.calculateBill(days);
-
-        System.out.println("Total Bill = Rs." + totalBill);
-
-        Payment payment = new Payment(totalBill);
-
-        System.out.print("Confirm payment? (yes/no): ");
-        sc.nextLine();
-        String confirm = sc.nextLine();
-
-        if (confirm.equalsIgnoreCase("yes")) {
-            payment.processPayment();
-            System.out.println("Checkout completed!");
-        } else {
-            System.out.println("Payment cancelled.");
-        }
+        System.out.println("\nTotal Booked Rooms: " + totalBooked);
+        System.out.println("Total Revenue: Rs." + totalRevenue);
     }
 }
