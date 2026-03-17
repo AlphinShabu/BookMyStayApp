@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 class Room {
     protected int type;
     protected int size;
@@ -12,20 +10,8 @@ class Room {
         this.price = price;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void bookRoom() {
-        isAvailable = false;
-    }
-
-    public void cancelBooking() {
-        isAvailable = true;
-    }
-
     public void display() {
-        System.out.println("Type: " + type + " | Price: " + price + " | Available: " + isAvailable);
+        System.out.println("Type: " + type + " | Size: " + size + " | Price: " + price + " | Available: " + isAvailable);
     }
 }
 
@@ -47,11 +33,9 @@ class SuiteRoom extends Room {
     }
 }
 
-class UseCase4CancelBooking {
+class UseCase5ViewRooms {
 
     public static void main(String[] args) {
-
-        Scanner sc = new Scanner(System.in);
 
         Room[] rooms = {
                 new SingleRoom(),
@@ -59,33 +43,8 @@ class UseCase4CancelBooking {
                 new SuiteRoom()
         };
 
-        // Pre-book one room (simulate existing booking)
-        rooms[0].bookRoom();
+        System.out.println("Available Rooms:");
 
-        System.out.println("Current Room Status:");
-        for (int i = 0; i < rooms.length; i++) {
-            System.out.print((i + 1) + ". ");
-            rooms[i].display();
-        }
-
-        System.out.print("Select room to cancel booking (1-3): ");
-        int choice = sc.nextInt();
-
-        if (choice < 1 || choice > 3) {
-            System.out.println("Invalid choice");
-            return;
-        }
-
-        Room selectedRoom = rooms[choice - 1];
-
-        if (selectedRoom.isAvailable()) {
-            System.out.println("Room is not booked.");
-        } else {
-            selectedRoom.cancelBooking();
-            System.out.println("Booking cancelled successfully!");
-        }
-
-        System.out.println("Updated Room Status:");
         for (int i = 0; i < rooms.length; i++) {
             System.out.print((i + 1) + ". ");
             rooms[i].display();
