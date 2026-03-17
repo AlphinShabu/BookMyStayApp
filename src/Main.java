@@ -1,62 +1,43 @@
 import java.util.Scanner;
 
-class Booking {
-    int bookingId;
+class Feedback {
     String customerName;
-    int roomType;
-    String checkIn;
-    String checkOut;
-    double amount;
+    String message;
+    int rating;
 
-    public Booking(int bookingId, String customerName, int roomType, String checkIn, String checkOut, double amount) {
-        this.bookingId = bookingId;
+    public Feedback(String customerName, String message, int rating) {
         this.customerName = customerName;
-        this.roomType = roomType;
-        this.checkIn = checkIn;
-        this.checkOut = checkOut;
-        this.amount = amount;
+        this.message = message;
+        this.rating = rating;
     }
 
-    public void displayReceipt() {
-        System.out.println("\n----- BOOKING RECEIPT -----");
-        System.out.println("Booking ID: " + bookingId);
-        System.out.println("Customer Name: " + customerName);
-        System.out.println("Room Type: " + roomType);
-        System.out.println("Check-in: " + checkIn);
-        System.out.println("Check-out: " + checkOut);
-        System.out.println("Total Amount: Rs." + amount);
-        System.out.println("---------------------------");
+    public void display() {
+        System.out.println("\n---- CUSTOMER FEEDBACK ----");
+        System.out.println("Name: " + customerName);
+        System.out.println("Rating: " + rating + "/5");
+        System.out.println("Message: " + message);
     }
 }
 
-public class UseCase11Receipt {
+class UseCase12Feedback {
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter Booking ID: ");
-        int id = sc.nextInt();
-        sc.nextLine();
-
-        System.out.print("Enter Customer Name: ");
+        System.out.print("Enter your name: ");
         String name = sc.nextLine();
 
-        System.out.print("Enter Room Type (1-3): ");
-        int type = sc.nextInt();
+        System.out.print("Enter rating (1-5): ");
+        int rating = sc.nextInt();
         sc.nextLine();
 
-        System.out.print("Enter Check-in Date: ");
-        String checkIn = sc.nextLine();
+        System.out.print("Enter your feedback/complaint: ");
+        String msg = sc.nextLine();
 
-        System.out.print("Enter Check-out Date: ");
-        String checkOut = sc.nextLine();
+        Feedback feedback = new Feedback(name, msg, rating);
 
-        System.out.print("Enter Total Amount: ");
-        double amount = sc.nextDouble();
-
-        Booking booking = new Booking(id, name, type, checkIn, checkOut, amount);
-
-        booking.displayReceipt();
+        System.out.println("\nThank you for your feedback!");
+        feedback.display();
     }
 }
