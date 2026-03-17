@@ -1,45 +1,62 @@
-class Room {
-    protected int type;
-    protected double price;
-    protected boolean isBooked;
+import java.util.Scanner;
 
-    public Room(int type, double price, boolean isBooked) {
-        this.type = type;
-        this.price = price;
-        this.isBooked = isBooked;
+class Booking {
+    int bookingId;
+    String customerName;
+    int roomType;
+    String checkIn;
+    String checkOut;
+    double amount;
+
+    public Booking(int bookingId, String customerName, int roomType, String checkIn, String checkOut, double amount) {
+        this.bookingId = bookingId;
+        this.customerName = customerName;
+        this.roomType = roomType;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+        this.amount = amount;
     }
 
-    public void display() {
-        System.out.println("Room Type: " + type +
-                " | Price: " + price +
-                " | Booked: " + isBooked);
+    public void displayReceipt() {
+        System.out.println("\n----- BOOKING RECEIPT -----");
+        System.out.println("Booking ID: " + bookingId);
+        System.out.println("Customer Name: " + customerName);
+        System.out.println("Room Type: " + roomType);
+        System.out.println("Check-in: " + checkIn);
+        System.out.println("Check-out: " + checkOut);
+        System.out.println("Total Amount: Rs." + amount);
+        System.out.println("---------------------------");
     }
 }
- class UseCase10Reports {
+
+public class UseCase11Receipt {
 
     public static void main(String[] args) {
 
-        Room[] rooms = {
-                new Room(1, 1500, true),
-                new Room(2, 2500, true),
-                new Room(3, 5000, false)
-        };
+        Scanner sc = new Scanner(System.in);
 
-        int totalBooked = 0;
-        double totalRevenue = 0;
+        System.out.print("Enter Booking ID: ");
+        int id = sc.nextInt();
+        sc.nextLine();
 
-        System.out.println("---- HOTEL REPORT ----");
+        System.out.print("Enter Customer Name: ");
+        String name = sc.nextLine();
 
-        for (int i = 0; i < rooms.length; i++) {
-            rooms[i].display();
+        System.out.print("Enter Room Type (1-3): ");
+        int type = sc.nextInt();
+        sc.nextLine();
 
-            if (rooms[i].isBooked) {
-                totalBooked++;
-                totalRevenue += rooms[i].price;
-            }
-        }
+        System.out.print("Enter Check-in Date: ");
+        String checkIn = sc.nextLine();
 
-        System.out.println("\nTotal Booked Rooms: " + totalBooked);
-        System.out.println("Total Revenue: Rs." + totalRevenue);
+        System.out.print("Enter Check-out Date: ");
+        String checkOut = sc.nextLine();
+
+        System.out.print("Enter Total Amount: ");
+        double amount = sc.nextDouble();
+
+        Booking booking = new Booking(id, name, type, checkIn, checkOut, amount);
+
+        booking.displayReceipt();
     }
 }
