@@ -2,54 +2,48 @@ import java.util.Scanner;
 
 class Room {
     protected int type;
-    protected boolean isAvailable = true;
+    protected double price;
 
-    public Room(int type) {
+    public Room(int type, double price) {
         this.type = type;
+        this.price = price;
     }
 
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void checkIn() {
-        isAvailable = false;
-    }
-
-    public void checkOut() {
-        isAvailable = true;
-    }
-
-    public void display() {
-        System.out.println("Room Type: " + type + " | Available: " + isAvailable);
+    public double calculateBill(int days) {
+        return price * days;
     }
 }
 
-class UseCase8CheckOut {
+class Payment {
+    double amount;
+
+    public Payment(double amount) {
+        this.amount = amount;
+    }
+
+    public void processPayment() {
+        System.out.println("Payment of Rs." + amount + " successful!");
+    }
+}
+
+class UseCase9Billing {
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
 
         Room[] rooms = {
-                new Room(1),
-                new Room(2),
-                new Room(3)
+                new Room(1, 1500.0),
+                new Room(2, 2500.0),
+                new Room(3, 5000.0)
         };
 
-        // Simulate already checked-in rooms
-        rooms[0].checkIn();
-        rooms[1].checkIn();
+        System.out.println("Room Types:");
+        System.out.println("1. Single (1500/day)");
+        System.out.println("2. Double (2500/day)");
+        System.out.println("3. Suite (5000/day)");
 
-        System.out.println("Occupied Rooms:");
-        for (int i = 0; i < rooms.length; i++) {
-            if (!rooms[i].isAvailable()) {
-                System.out.print((i + 1) + ". ");
-                rooms[i].display();
-            }
-        }
-
-        System.out.print("Enter room number to checkout (1-3): ");
+        System.out.print("Select room type (1-3): ");
         int choice = sc.nextInt();
 
         if (choice < 1 || choice > 3) {
@@ -59,17 +53,24 @@ class UseCase8CheckOut {
 
         Room selectedRoom = rooms[choice - 1];
 
-        if (selectedRoom.isAvailable()) {
-            System.out.println("Room is already empty.");
-        } else {
-            selectedRoom.checkOut();
-            System.out.println("Check-Out Successful!");
-        }
+        System.out.print("Enter number of days stayed: ");
+        int days = sc.nextInt();
 
-        System.out.println("\nUpdated Room Status:");
-        for (int i = 0; i < rooms.length; i++) {
-            System.out.print((i + 1) + ". ");
-            rooms[i].display();
+        double totalBill = selectedRoom.calculateBill(days);
+
+        System.out.println("Total Bill = Rs." + totalBill);
+
+        Payment payment = new Payment(totalBill);
+
+        System.out.print("Confirm payment? (yes/no): ");
+        sc.nextLine();
+        String confirm = sc.nextLine();
+
+        if (confirm.equalsIgnoreCase("yes")) {
+            payment.processPayment();
+            System.out.println("Checkout completed!");
+        } else {
+            System.out.println("Payment cancelled.");
         }
     }
 }
